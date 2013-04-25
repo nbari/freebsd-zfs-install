@@ -64,6 +64,7 @@ echo 'vfs.root.mountfrom="zfs:tank/root"' >> /mnt/boot/loader.conf
 echo 'zfs_enable="YES"' > /mnt/etc/rc.conf
 echo "hostname=\"$hostname\"" >> /mnt/etc/rc.conf
 echo "ifconfig_${ifconfig_if}=\"inet $ifconfig_addr netmask $ifconfig_mask broadcast $ifconfig_brdc\"" >> /mnt/etc/rc.conf
+echo "defaultrouter=\"$defaultrouter\"" >> /mnt/etc/rc.conf
 echo 'sshd_enable="YES"' >> /mnt/etc/rc.conf
 echo '/dev/ada0p2 none swap sw 0 0' > /mnt/etc/fstab
 
