@@ -1,10 +1,4 @@
 #!/usr/bin/env sh
-#if [ -e conf-zfs.sh ]; then
-#	. ./conf-zfs.sh
-#else
-#	echo "conf-zfs.sh missing"
-#	exit 1
-#fi
 ada="ada0"
 swap_space="4G"
 url="ftp://ftp.free.fr/mirrors/ftp.freebsd.org/releases/amd64/9.1-RELEASE"
@@ -79,6 +73,8 @@ zpool export tank
 zpool import -o cachefile=/tmp/zpool.cache -o altroot=/mnt tank
 cp /tmp/zpool.cache /mnt/boot/zfs/
 
-echo "CHANGE ROOT PASSWORD AND VERIFY INFORMATIONS IN rc.conf, fstab AND loader.conf"
 echo "You just have been chrooted into your fresh installation."
+echo "passwd root
+hostname=\"yourhostname\" in rc.conf and make alias in /etc/hosts.
+Add users, import conf file from anywhere... do what you want and reboot."
 chroot /mnt /bin/tcsh
