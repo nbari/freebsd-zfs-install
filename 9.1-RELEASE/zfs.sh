@@ -1,10 +1,13 @@
 #!/usr/bin/env sh
-if [ -e conf-zfs.sh ]; then
-	. ./conf-zfs.sh
-else
-	echo "conf-zfs.sh missing"
-	exit 1
-fi
+#if [ -e conf-zfs.sh ]; then
+#	. ./conf-zfs.sh
+#else
+#	echo "conf-zfs.sh missing"
+#	exit 1
+#fi
+ada="ada0"
+swap_space="4G"
+url="ftp://ftp.free.fr/mirrors/ftp.freebsd.org/releases/amd64/9.1-RELEASE"
 echo "ZFS RELATED"
 kldload opensolaris 2> /dev/null
 kldload zfs 2> /dev/null
@@ -39,13 +42,13 @@ zpool create -f -m none -o altroot=/mnt -o cachefile=/tmp/zpool.cache tank gpt/z
 
 echo "ZFS CREATE"
 zfs create -o mountpoint=/ tank/root
-zfs create -o mountpoint=/tmp tank/tmp
-zfs create -o mountpoint=/var tank/var
-zfs create -o mountpoint=/usr tank/usr
-zfs create -o mountpoint=/usr/src tank/usr/src
-zfs create -o mountpoint=/usr/local tank/usr/local
-zfs create -o mountpoint=/usr/ports tank/usr/ports
-zfs create -o mountpoint=/home tank/home
+zfs create -o mountpoint=/tmp tank/root/tmp
+zfs create -o mountpoint=/var tank/root/var
+zfs create -o mountpoint=/usr tank/root/usr
+zfs create -o mountpoint=/usr/src tank/root/usr/src
+zfs create -o mountpoint=/usr/local tank/root/usr/local
+zfs create -o mountpoint=/usr/ports tank/root/usr/ports
+zfs create -o mountpoint=/home tank/root/home
 
 echo "BOOT SET"
 zpool set bootfs=tank/root tank
@@ -55,15 +58,17 @@ cd /mnt
 echo "TAR"
 fetch $url/kernel.txz
 fetch $url/base.txz
+fetch $url/src.txz
+fetch $url/lib32.txz
 tar xJpf kernel.txz -C /mnt
 tar xJpf base.txz -C /mnt
+tar xJpf src.txz -C /mnt
+tar xJpf lib32.txz -C /mnt
 
 echo "CONF"
 echo 'zfs_load="YES"' > /mnt/boot/loader.conf
 echo 'vfs.root.mountfrom="zfs:tank/root"' >> /mnt/boot/loader.conf
 echo 'zfs_enable="YES"' > /mnt/etc/rc.conf
-echo "hostname=\"$hostname\"" >> /mnt/etc/rc.conf
-echo "ifconfig_${ifconfig_if}=\"inet $ifconfig_addr netmask $ifconfig_mask broadcast $ifconfig_brdc\"" >> /mnt/etc/rc.conf
 echo 'sshd_enable="YES"' >> /mnt/etc/rc.conf
 echo '/dev/ada0p2 none swap sw 0 0' > /mnt/etc/fstab
 
