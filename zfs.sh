@@ -2,7 +2,7 @@
 ada="ada0"
 swap_space="4G"
 url="ftp://ftp.fr.freebsd.org/pub/FreeBSD/releases/amd64/9.1-RELEASE"
-#urs="ftp://ftp.fr.freebsd.org/pub/FreeBSD/snapshots/amd64/amd64/9.1-STABLE"
+#url="ftp://ftp.fr.freebsd.org/pub/FreeBSD/snapshots/amd64/amd64/9.1-STABLE"
 echo "ZFS RELATED"
 kldload opensolaris 2> /dev/null
 kldload zfs 2> /dev/null
