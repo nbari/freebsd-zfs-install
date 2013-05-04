@@ -15,7 +15,7 @@ set url="http://ftp.fr.freebsd.org/pub/FreeBSD/snapshots/amd64/amd64/9.1-STABLE"
 #set sets = (kernel base lib32 src doc)
 set sets = (kernel base)
 
-#set http_proxy="http://proxy:3128"
+#setenv HTTP_PROXY "http://proxy:3128"
 set dest="/mnt"
 set taropt="xvJpf"
 
