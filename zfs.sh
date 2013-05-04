@@ -9,18 +9,15 @@ set hostname="freebsd-zfs"
 set nameserver="8.8.8.8"
 
 #set url="http://ftp.fr.freebsd.org/pub/FreeBSD/releases/amd64/9.1-RELEASE"
-set url="http://ftp.fr.freebsd.org/pub/FreeBSD/snapshots/amd64/amd64/9.1-STABLE"
+#set url="http://ftp.fr.freebsd.org/pub/FreeBSD/snapshots/amd64/amd64/9.1-STABLE"
 #set url="http://192.168.0.23/~florent/freebsd-zfs/9.1-RELEASE"
-#set url="http://192.168.0.23/~florent/freebsd-zfs/9.1-STABLE"
+set url="http://192.168.0.23/~florent/freebsd-zfs/9.1-STABLE"
 #set sets = (kernel base lib32 src doc)
 set sets = (kernel base)
 
 #setenv HTTP_PROXY "http://proxy:3128"
 set dest="/mnt"
-set taropt="xvJpf"
-
-kldload opensolaris 2> /dev/null
-kldload zfs 2> /dev/null
+set taropt="xJpf"
 
 zpool import -f -o altroot=$dest tank
 zpool destroy -f tank
@@ -59,13 +56,6 @@ newfs -O 1 /dev/md3
 mount /dev/md3 /etc
 echo "nameserver $nameserver" > /etc/resolv.conf
 
-fetch -a $url/kernel.txz
-tar $taropt kernel.txz -C $dest
-
-if ( ! $? )
-	exit 1
-end
-
 foreach set_ ($sets)
 	fetch -a $url/$set_.txz
 	tar $taropt $set_.txz -C $dest
@@ -73,13 +63,13 @@ end
 
 umount /etc
 
-echo 'zfs_load="YES"' > $dest/boot/loader.conf
-echo 'vfs.root.mountfrom="zfs:tank/root"' >> $dest/boot/loader.conf
-echo 'zfs_enable="YES"' > $dest/etc/rc.conf
-echo "keymap=\"$keymap\"" >> $dest/etc/rc.conf
-echo "hostname=\"$hostname\"" >> $dest/etc/rc.conf
-echo 'sshd_enable="YES"' >> $dest/etc/rc.conf
-echo '/dev/ada0p2 none swap sw 0 0' > $dest/etc/fstab
+echo zfs_load=\"YES\" > $dest/boot/loader.conf
+echo vfs.root.mountfrom=\"zfs:tank/root\" >> $dest/boot/loader.conf
+echo zfs_enable=\"YES\" > $dest/etc/rc.conf
+echo keymap=\"$keymap\" >> $dest/etc/rc.conf
+echo hostname=\"$hostname\" >> $dest/etc/rc.conf
+echo sshd_enable=\"YES\" >> $dest/etc/rc.conf
+echo "/dev/ada0p2 none swap sw 0 0" > $dest/etc/fstab
 
 cd /
 
@@ -87,10 +77,14 @@ zpool export tank
 zpool import -o cachefile=/tmp/zpool.cache -o altroot=$dest tank
 cp /tmp/zpool.cache $dest/boot/zfs/
 
-echo "You've just been chrooted into your fresh installation."
-echo "passwd root
-hostname=\"yourhostname\" in rc.conf and make alias in /etc/hosts.
-Add users, import conf file from anywhere... do what you want and reboot.
-Do \"chroot $dest /bin/tcsh\" if you want to go in ;)
-Be careful, you are in a C-shell."
+echo You\'ve just been chrooted into your fresh installation.
+echo passwd root
+echo hostname=\"yourhostname\" in rc.conf and make alias in /etc/hosts.
+echo Add users, import conf file from anywhere... do what you want and reboot.
+echo Do \"chroot $dest /bin/tcsh\" if you want to go in \;\)
+echo Be careful, you are in a C-shell.
 chroot $dest /bin/tcsh
+done:
+	continue
+error:
+	exit 1
