@@ -1,25 +1,23 @@
-#!/usr/bin/env sh
+#!/usr/bin/env tcsh
 
-ada="ada0"
-swap_space="4G"
-#keymap="us.iso.acc.kbd"
-#keymap="uk.iso.kbd"
-keymap="fr.iso.acc.kbd"
-hostname="freebsd-zfs"
-nameserver="8.8.8.8"
+set ada="ada0"
+set swap_space="4G"
+#set keymap="us.iso.acc.kbd"
+#set keymap="uk.iso.kbd"
+set keymap="fr.iso.acc.kbd"
+set hostname="freebsd-zfs"
+set nameserver="8.8.8.8"
 
-#url="http://ftp.fr.freebsd.org/pub/FreeBSD/releases/amd64/9.1-RELEASE"
-url="http://ftp.fr.freebsd.org/pub/FreeBSD/snapshots/amd64/amd64/9.1-STABLE"
-#url="http://192.168.0.23/~florent/freebsd-zfs/9.1-RELEASE"
-#url="http://192.168.0.23/~florent/freebsd-zfs/9.1-STABLE"
-#lib32=yes
-#src=yes
-#doc=yes
+#set url="http://ftp.fr.freebsd.org/pub/FreeBSD/releases/amd64/9.1-RELEASE"
+set url="http://ftp.fr.freebsd.org/pub/FreeBSD/snapshots/amd64/amd64/9.1-STABLE"
+#set url="http://192.168.0.23/~florent/freebsd-zfs/9.1-RELEASE"
+#set url="http://192.168.0.23/~florent/freebsd-zfs/9.1-STABLE"
+#set sets = (kernel base lib32 src doc)
+set sets = (kernel base)
 
-#export http_proxy="http://proxy:3128"
-
-dest="/mnt"
-taropt="xvJpf"
+#set http_proxy="http://proxy:3128"
+set dest="/mnt"
+set taropt="xvJpf"
 
 kldload opensolaris 2> /dev/null
 kldload zfs 2> /dev/null
@@ -64,37 +62,15 @@ echo "nameserver $nameserver" > /etc/resolv.conf
 fetch -a $url/kernel.txz
 tar $taropt kernel.txz -C $dest
 
-if [ ! $? ]; then
+if ( ! $? )
 	exit 1
-fi
+end
 
-fetch -a $url/base.txz
-tar $taropt base.txz -C $dest
-if [ ! $? ]; then
-	exit 1
-fi
+foreach set_ ($sets)
+	fetch -a $url/$set_.txz
+	tar $taropt $set_.txz -C $dest
+end
 
-if [ ! -z $lib32 ]; then
-	fetch -a $url/lib32.txz
-	tar $taropt lib32.txz -C $dest
-	if [ ! $? ]; then
-		exit 1
-	fi
-fi
-if [ ! -z $src ]; then
-	fetch -a $url/src.txz
-	tar $taropt src.txz -C $dest
-	if [ ! $? ]; then
-		exit 1
-	fi
-fi
-if [ ! -z $doc ]; then
-	fetch -a $url/doc.txz
-	tar $taropt doc.txz -C $dest
-	if [ ! $? ]; then
-		exit 1
-	fi
-fi
 umount /etc
 
 echo 'zfs_load="YES"' > $dest/boot/loader.conf
