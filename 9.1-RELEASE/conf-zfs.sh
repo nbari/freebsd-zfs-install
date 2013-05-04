@@ -1,10 +1,1 @@
-#!/usr/bin/env sh
-export url="http://192.168.56.1/~florent/"
-export ada="ada0"
-export hostname="yoda"
-export ifconfig_if="em0"
-export ifconfig_addr="192.168.56.2"
-export ifconfig_brdc="192.168.56.255"
-export ifconfig_mask="255.255.255.0"
-export defaultrouter="192.168.56.1"
-export swap_space="4G"
+conf-zfs-local.sh
