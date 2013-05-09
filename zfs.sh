@@ -1,5 +1,5 @@
 #!/usr/bin/env tcsh
-
+# Boot in LiveCD mode, login root, cd /tmp, fetch zfs.sh, chmod +x zfs.sh, ./zfs.sh
 set ada="ada0"
 set swap_space="4G"
 #set keymap="us.iso.acc.kbd"
