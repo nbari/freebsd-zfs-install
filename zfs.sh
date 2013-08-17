@@ -25,6 +25,7 @@ zpool labelclear /dev/${ada}*
 
 gpart destroy -F $ada
 gpart create -s gpt $ada
+# Keep freebsd-boot at start of the disk.
 gpart add -s 128 -t freebsd-boot -l boot $ada
 gpart add -s $swap_space -t freebsd-swap -l swap $ada
 gpart add -t freebsd-zfs -l zfs-root $ada
