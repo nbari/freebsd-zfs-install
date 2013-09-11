@@ -10,8 +10,8 @@ set nameserver="8.8.8.8"
 
 #set url="http://ftp.fr.freebsd.org/pub/FreeBSD/releases/amd64/9.1-RELEASE"
 #set url="http://ftp.fr.freebsd.org/pub/FreeBSD/snapshots/amd64/amd64/9.1-STABLE"
-#set url="http://192.168.0.23/~florent/freebsd-zfs/9.1-RELEASE"
-set url="http://192.168.0.23/~florent/freebsd-zfs/9.1-STABLE"
+#set url="http://192.168.56.1/"
+set url="http://10.0.9.1/"
 #set sets = (kernel base lib32 src doc)
 set sets = (kernel base)
 
