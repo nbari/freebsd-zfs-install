@@ -9,13 +9,10 @@ set hostname="freebsd-zfs"
 set nameserver="192.168.56.1"
 
 #set url="http://ftp.fr.freebsd.org/pub/FreeBSD/releases/amd64/9.1-RELEASE"
-#set url="http://ftp.fr.freebsd.org/pub/FreeBSD/snapshots/amd64/amd64/9.1-STABLE"
-#set url="http://192.168.0.23/~florent/freebsd-zfs/9.1-RELEASE"
-#set url="http://192.168.0.23/~florent/freebsd-zfs/9.1-STABLE"
-#set url="ftp://158.255.96.2/pub/FreeBSD/releases/amd64/amd64/9.2-RC2"
+set url="ftp://ftp.fr.freebsd.org/pub/FreeBSD/releases/amd64/amd64/9.2-RC4"
+#set url="http://10.0.9.1/"
+
 #set sets = (kernel base lib32 src doc)
-#set url="http://192.168.56.1:8000/"
-set url="http://192.168.56.1:8000/freebsd/91r"
 set sets = (kernel base)
 
 #setenv HTTP_PROXY "http://proxy:3128"
