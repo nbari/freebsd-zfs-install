@@ -6,11 +6,9 @@ set swap_space="4G"
 #set keymap="uk.iso.kbd"
 set keymap="fr.iso.acc.kbd"
 set hostname="freebsd-zfs"
-set nameserver="192.168.56.1"
+set nameserver="172.29.186.137"
 
-#set url="http://ftp.fr.freebsd.org/pub/FreeBSD/releases/amd64/9.1-RELEASE"
-set url="ftp://ftp.fr.freebsd.org/pub/FreeBSD/releases/amd64/amd64/9.2-RC4"
-#set url="http://10.0.9.1/"
+set url="http://ftp.fr.freebsd.org/pub/FreeBSD/releases/amd64/9.2-RELEASE"
 
 #set sets = (kernel base lib32 src doc)
 set sets = (kernel base)
