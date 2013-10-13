@@ -53,6 +53,9 @@ cd $dest
 tar cJf /tmp/etc.txz /etc
 mdconfig -a -t malloc -s 1m -u 4
 newfs -O 1 /dev/md4
+mount /dev/md4 /mnt
+tar cf - -C /etc . | tar xpf - -C /mnt/
+umount /mnt
 mount /dev/md4 /etc
 tar xJf /tmp/etc.txz -C /
 echo "nameserver $nameserver" > /etc/resolv.conf
